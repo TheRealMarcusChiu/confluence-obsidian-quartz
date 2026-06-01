@@ -80,6 +80,11 @@
     }
   }
 
+  // the circular +/- icon is the sole toggle indicator; hide Quartz's default fold chevron
+  & .callout-fold {
+    display: none !important;
+  }
+
   & > .callout-content {
     padding: 8px 0 0 36px !important;
     color: var(--darkgray) !important;
