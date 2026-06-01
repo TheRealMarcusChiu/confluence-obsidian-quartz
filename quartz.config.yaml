@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: therealmarcuschiu.github.io/quartz
+  baseUrl: therealmarcuschiu.github.io/confluence-obsidian-quartz
   ignorePatterns:
     - private
     - templates
