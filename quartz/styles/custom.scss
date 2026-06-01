@@ -1,3 +1,169 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// ============================================================
+// Ported Obsidian callout + table snippets, re-keyed to Quartz's
+// callout DOM and theme variables (dark-mode safe).
+// Source: obsidian-vault/.obsidian/snippets/{callout-expand,
+//   callout-indent,callout-list-indent-undo,callout-wrapper,
+//   table-no-wrap}.css
+// ============================================================
+
+// --- [!expand-ui] : circular +/- toggle with a bottom separator ---
+.callout[data-callout="expand-ui"] {
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--lightgray) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 12px 0 !important;
+
+  &::before,
+  & .callout::before {
+    display: none !important;
+  }
+
+  & > .callout-title {
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: transparent !important;
+  }
+
+  & .callout-title-inner {
+    font-size: 0.95em;
+    font-weight: 500;
+    color: var(--gray) !important;
+    text-transform: uppercase;
+  }
+
+  & .callout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid var(--gray);
+    border-radius: 50%;
+    position: relative;
+    background: none !important;
+
+    & svg {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 1.5px;
+      background-color: var(--gray);
+    }
+  }
+
+  &.is-collapsed .callout-icon::before {
+    content: "";
+    position: absolute;
+    width: 1.5px;
+    height: 10px;
+    background-color: var(--gray);
+  }
+
+  &:not(.is-collapsed) .callout-icon {
+    background-color: var(--dark) !important;
+    border-color: var(--dark);
+
+    &::after {
+      background-color: var(--light);
+    }
+  }
+
+  & > .callout-content {
+    padding: 8px 0 0 36px !important;
+    color: var(--darkgray) !important;
+  }
+}
+
+// --- [!expand] : blue clickable title with chevron, indented body ---
+.callout[data-callout="expand"] {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 4px 0 !important;
+
+  &::before,
+  & .callout-icon {
+    display: none !important;
+  }
+
+  & > .callout-title {
+    padding: 0 !important;
+    color: var(--secondary) !important;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  & .callout-fold {
+    display: flex !important;
+    color: var(--darkgray) !important;
+  }
+
+  & > .callout-content {
+    padding: 4px 0 4px 20px !important;
+    border-left: 1px solid var(--lightgray);
+  }
+}
+
+// --- [!indent] / [!list-indent-undo] / [!wrapper] : invisible layout wrappers ---
+.callout[data-callout="indent"],
+.callout[data-callout="list-indent-undo"],
+.callout[data-callout="wrapper"] {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: inherit !important;
+
+  & > .callout-title {
+    display: none !important;
+  }
+
+  & > .callout-content {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+.callout[data-callout="indent"] {
+  margin: 0 0 0 2.3em !important;
+}
+
+.callout[data-callout="list-indent-undo"] {
+  margin: 0 0 0 -2.3em !important;
+}
+
+.callout[data-callout="wrapper"] {
+  margin: 0 !important;
+}
+
+ul + .callout[data-callout="wrapper"],
+ol + .callout[data-callout="wrapper"] {
+  margin: 0 0 0 -2.3em !important;
+}
+
+// --- wide tables: no wrap + horizontal scroll (was .markdown-rendered/.cm-embed-block) ---
+article table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  & td,
+  & th {
+    white-space: nowrap !important;
+  }
+}
