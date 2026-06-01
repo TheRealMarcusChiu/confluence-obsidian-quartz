@@ -173,3 +173,35 @@ article table {
     white-space: nowrap !important;
   }
 }
+
+// --- Excerpt box (from the obsidian excerpt plugin: labelled, accent left-stripe) ---
+.excerpt {
+  border: 1px solid var(--lightgray);
+  border-left: 3px solid var(--excerpt-accent, #0052cc);
+  border-radius: 4px;
+  margin: 1em 0;
+  background-color: var(--light);
+  overflow: hidden;
+}
+
+.excerpt-label {
+  font-size: 0.7em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--excerpt-accent, #0052cc);
+  padding: 0.4em 1em;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+.excerpt-body {
+  padding: 0.7em 1em;
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
