@@ -42,6 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto; // override Quartz base `.callout-icon { flex: 0 0 var(--icon-size) }` so the circle stays round
     width: 24px;
     height: 24px;
     border: 1.5px solid var(--gray);
