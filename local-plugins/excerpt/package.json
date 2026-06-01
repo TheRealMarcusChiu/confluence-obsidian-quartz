@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-excerpt",
+  "version": "1.0.0",
+  "description": "Confluence-style excerpt box for Quartz.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "excerpt", "displayName": "Excerpt", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
