@@ -273,10 +273,9 @@ plugins:
   - source: ./local-plugins/excerpt
     enabled: true
     order: 25
-    options:
-      label: Excerpt
-      accentColor: "#0052CC"
-      showLabel: true
+  - source: ./local-plugins/transclude-resolve
+    enabled: true
+    order: 65
   - source: ./local-plugins/merge-table
     enabled: true
     order: 26

@@ -172,54 +172,44 @@ article table {
   & th {
     white-space: nowrap !important;
   }
+
+  // table border color (fixed blue-gray, both themes; base.scss uses the very-faint --lightgray)
+  & tr {
+    border-bottom-color: #c1c7d0;
+  }
 }
 
-// --- Excerpt box (from the obsidian excerpt plugin: labelled, accent left-stripe) ---
+// --- Excerpt: render inline, no box (matches the Obsidian excerpt plugin) ---
+// The wrapper exists only to carry the `^excerpt` block id for transclusion;
+// `display:contents` removes it from layout so the body reads as plain content.
 .excerpt {
-  border: 1px solid var(--lightgray);
-  border-left: 3px solid var(--excerpt-accent, #0052cc);
-  border-radius: 4px;
-  margin: 1em 0;
-  background-color: var(--light);
-  overflow: hidden;
+  display: contents;
 }
 
-.excerpt-label {
-  font-size: 0.7em;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--excerpt-accent, #0052cc);
-  padding: 0.4em 1em;
-  border-bottom: 1px solid var(--lightgray);
-}
-
-.excerpt-body {
-  padding: 0.7em 1em;
-
-  & > :first-child {
-    margin-top: 0;
-  }
-
-  & > :last-child {
-    margin-bottom: 0;
-  }
-}
-
-// --- Transcluded excerpts: flatten Quartz's embed chrome (was .markdown-embed in Obsidian) ---
-.transclude {
+// --- Transcluded excerpts: flatten Quartz's embed chrome so an embedded
+// excerpt reads as inline content of the host page (scoped to excerpts only,
+// so other transclusions keep Quartz's default embed styling). ---
+.transclude:has(.excerpt) {
   margin: 0;
   padding: 0;
+  border: none;
 
   & > .transclude-inner {
     margin: 0;
     padding: 0;
   }
 
-  // an excerpt box embedded via transclusion keeps its own box styling; just remove
-  // any extra embed border/indentation Quartz adds around it
-  .excerpt {
-    margin: 0.5em 0;
+  // base.scss reduces lists to `padding-left: 1rem` inside any `.transclude`,
+  // assuming the blockquote's own 1rem padding makes up the rest. We zero that
+  // padding for seamlessness, so restore the normal (outside-excerpt) list
+  // indent — otherwise bullets sit too far left.
+  ul {
+    padding-left: 40px;
+  }
+
+  // hide the "Link to original" backlink Quartz appends to the embed
+  .transclude-src {
+    display: none;
   }
 }
 
@@ -231,7 +221,7 @@ article table {
 
   th,
   td {
-    border: 1px solid var(--lightgray);
+    border: 1px solid #c1c7d0;
     padding: 0.4em 0.6em;
     vertical-align: top;
     white-space: normal !important; // beat the Phase-2 td/th nowrap rule

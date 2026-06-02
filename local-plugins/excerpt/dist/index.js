@@ -1,21 +1,17 @@
 export const manifest = {
   name: "excerpt",
   displayName: "Excerpt",
-  description: "Render ```excerpt fenced blocks as a labelled, accent-bordered box with full Markdown body.",
+  description: "Render ```excerpt fenced blocks inline (invisible wrapper), preserving the ^excerpt anchor for transclusion.",
   version: "1.0.0",
   category: "transformer",
 }
 
-const escapeAttr = (s) =>
-  String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-const escapeHtml = (s) =>
-  String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-
-const Excerpt = (opts) => {
-  const label = (opts && opts.label) || "Excerpt"
-  const accent = (opts && opts.accentColor) || "#0052CC"
-  const showLabel = !opts || opts.showLabel !== false
-
+// The Obsidian excerpt plugin draws no box: it renders the fenced body as
+// ordinary content. We keep only a styling-free wrapper `<div class="excerpt">`
+// — it is `display:contents` in CSS, so it adds nothing visually, but it remains
+// the single element the trailing `^excerpt` block-anchor attaches to, so
+// `blocks["excerpt"]` captures the *whole* excerpt for `![[note#^excerpt]]`.
+const Excerpt = () => {
   return {
     name: "Excerpt",
     markdownPlugins() {
@@ -30,12 +26,8 @@ const Excerpt = (opts) => {
                 const child = node.children[i]
                 if (child.type === "code" && child.lang === "excerpt") {
                   const inner = self.parse(child.value)
-                  const labelHtml = showLabel ? `<div class="excerpt-label">${escapeHtml(label)}</div>` : ""
-                  const open = {
-                    type: "html",
-                    value: `<div class="excerpt" style="--excerpt-accent:${escapeAttr(accent)}">${labelHtml}<div class="excerpt-body">`,
-                  }
-                  const close = { type: "html", value: "</div></div>" }
+                  const open = { type: "html", value: `<div class="excerpt">` }
+                  const close = { type: "html", value: "</div>" }
                   node.children.splice(i, 1, open, ...inner.children, close)
                   i += inner.children.length + 1
                 } else {

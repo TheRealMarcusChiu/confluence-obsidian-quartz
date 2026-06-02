@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-transclude-resolve",
+  "version": "1.0.0",
+  "description": "Rewrite bare transclusion data-slug targets to their real folder-note (…/index) slugs so ![[Note#^block]] embeds resolve.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "transclude-resolve", "displayName": "Transclude Resolve", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}

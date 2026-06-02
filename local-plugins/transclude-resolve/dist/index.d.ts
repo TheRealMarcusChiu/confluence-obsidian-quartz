@@ -6,9 +6,9 @@ export declare const manifest: {
   category: string
 }
 
-declare const Excerpt: () => {
+declare const TranscludeResolve: () => {
   name: string
-  markdownPlugins(): unknown[]
+  htmlPlugins(ctx: { allSlugs?: string[] }): unknown[]
 }
 
-export default Excerpt
+export default TranscludeResolve
