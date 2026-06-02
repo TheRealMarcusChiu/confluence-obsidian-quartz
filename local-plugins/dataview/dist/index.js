@@ -68,7 +68,10 @@ function renderQuartzDataview() {
           const li = document.createElement("li")
           const a = document.createElement("a")
           a.href = base + cleanSlug
-          a.className = "internal"
+          // Match crawl-links output: the theme only de-highlights links with
+          // the internal-link class, so client-generated links need both or
+          // they fall back to the gold highlight pill.
+          a.className = "internal internal-link"
           a.textContent = it.title || it.slug
           li.appendChild(a)
           ul.appendChild(li)
