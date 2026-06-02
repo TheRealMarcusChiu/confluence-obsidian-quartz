@@ -307,3 +307,13 @@ article table {
     margin-bottom: 0;
   }
 }
+
+// --- Dataview "recent notes" list (rendered client-side from dataviewIndex.json) ---
+ul.dataview-recent {
+  margin: 0.5em 0;
+  padding-left: 1.2em;
+
+  li {
+    margin: 0.15em 0;
+  }
+}
