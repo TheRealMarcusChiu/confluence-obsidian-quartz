@@ -205,3 +205,20 @@ article table {
     margin-bottom: 0;
   }
 }
+
+// --- Transcluded excerpts: flatten Quartz's embed chrome (was .markdown-embed in Obsidian) ---
+.transclude {
+  margin: 0;
+  padding: 0;
+
+  & > .transclude-inner {
+    margin: 0;
+    padding: 0;
+  }
+
+  // an excerpt box embedded via transclusion keeps its own box styling; just remove
+  // any extra embed border/indentation Quartz adds around it
+  .excerpt {
+    margin: 0.5em 0;
+  }
+}
