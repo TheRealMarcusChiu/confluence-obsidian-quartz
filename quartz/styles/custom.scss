@@ -246,4 +246,16 @@ article table {
   td > :last-child {
     margin-bottom: 0;
   }
+
+  // The source `bg` colors are light Confluence pastels; in dark mode the near-white
+  // body text would be unreadable on them. Force dark text on any cell carrying an
+  // explicit background so colored cells stay legible in both themes.
+  th[style*="background-color"],
+  td[style*="background-color"] {
+    color: #2b2b2b;
+
+    a {
+      color: #284b63;
+    }
+  }
 }
