@@ -273,6 +273,9 @@ plugins:
   - source: ./local-plugins/excerpt
     enabled: true
     order: 25
+  - source: ./local-plugins/math-adjacency
+    enabled: true
+    order: 22
   - source: ./local-plugins/transclude-resolve
     enabled: true
     order: 65

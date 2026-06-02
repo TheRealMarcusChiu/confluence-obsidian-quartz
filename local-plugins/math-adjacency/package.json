@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-math-adjacency",
+  "version": "1.0.0",
+  "description": "Disambiguate adjacent inline math ($a$$b$) so remark-math renders both, not a display fence.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "math-adjacency", "displayName": "Math Adjacency", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
