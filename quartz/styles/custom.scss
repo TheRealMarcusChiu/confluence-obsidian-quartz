@@ -222,3 +222,28 @@ article table {
     margin: 0.5em 0;
   }
 }
+
+// --- Merge tables (colspan/rowspan/per-cell bg; rich Markdown cells) ---
+.merge-table {
+  border-collapse: collapse;
+  white-space: normal; // override the global wide-table no-wrap for these
+  margin: 1em 0;
+
+  th,
+  td {
+    border: 1px solid var(--lightgray);
+    padding: 0.4em 0.6em;
+    vertical-align: top;
+    white-space: normal !important; // beat the Phase-2 td/th nowrap rule
+  }
+
+  // tighten margins of block content inside cells
+  th > :first-child,
+  td > :first-child {
+    margin-top: 0;
+  }
+  th > :last-child,
+  td > :last-child {
+    margin-bottom: 0;
+  }
+}
