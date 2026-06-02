@@ -21,9 +21,13 @@ const DataviewIndex = (_opts) => {
       const data = file.data ?? {}
       if (data.unlisted === true) continue
       if (!data.slug) continue
+      if (data.slug === "index") continue // the site-root/home page, not a note
       const text = data.text
-      if (!text || text === "") continue // skip empty/generated pages
       const date = getModified(data)
+      // Skip generated/placeholder pages (no text AND no user date). A genuinely
+      // empty *note* still carries created/modified frontmatter, so it stays
+      // listed (it's a real child page).
+      if ((!text || text === "") && !date) continue
       const fm = data.frontmatter ?? {}
       entries.push({
         slug: data.slug,
