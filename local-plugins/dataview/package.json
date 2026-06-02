@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-dataview",
+  "version": "1.0.0",
+  "description": "Render simple dataview LIST queries as a recent-notes list; degrade unsupported queries gracefully.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "dataview", "displayName": "Dataview", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}

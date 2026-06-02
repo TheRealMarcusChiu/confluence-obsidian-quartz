@@ -285,6 +285,9 @@ plugins:
     order: 24
   - source: ./local-plugins/dataview-index
     enabled: true
+  - source: ./local-plugins/dataview
+    enabled: true
+    order: 28
 layout:
   groups:
     toolbar:
