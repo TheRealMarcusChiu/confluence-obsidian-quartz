@@ -109,6 +109,17 @@ const MergeTable = (_opts) => ({
               if (json != null) {
                 const built = buildTable(json, 1)
                 if (built) {
+                  // Obsidian nests a merge-table under a bullet via an empty
+                  // intermediate bullet (`- \n    ```merge-table`). CommonMark
+                  // parses that empty bullet as a setext underline, promoting the
+                  // parent bullet's text to a heading (`- hello` → <h2>hello</h2>).
+                  // Inside a list item, a heading immediately before the table is
+                  // always this artifact — demote it back to a paragraph.
+                  const prev = out[out.length - 1]
+                  if (node.type === "listItem" && prev && prev.type === "heading") {
+                    prev.type = "paragraph"
+                    delete prev.depth
+                  }
                   out.push(...built)
                   changed = true
                   continue
