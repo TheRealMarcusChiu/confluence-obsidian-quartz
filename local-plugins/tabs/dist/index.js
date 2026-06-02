@@ -68,6 +68,13 @@ function buildTabs(blockquote) {
   return out
 }
 
+// This script is emitted once per full page load (rendered after </body> with
+// data-persist, so the SPA router never re-executes it); Quartz fires the "nav"
+// event on initial load and every SPA navigation, so setupQuartzTabs re-runs over
+// fresh .tabs DOM each time. No addCleanup is needed: the click handler is
+// idempotent (it sets is-active from an absolute data-tab match), so even a
+// duplicate listener would compute the same final state. Keep it idempotent if
+// you change it — a stateful handler here WOULD need cleanup.
 const TAB_CLIENT_JS = `
 function setupQuartzTabs() {
   document.querySelectorAll(".tabs").forEach((root) => {
