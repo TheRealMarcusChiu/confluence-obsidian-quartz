@@ -283,6 +283,8 @@ plugins:
   - source: ./local-plugins/tabs
     enabled: true
     order: 24
+  - source: ./local-plugins/dataview-index
+    enabled: true
 layout:
   groups:
     toolbar:

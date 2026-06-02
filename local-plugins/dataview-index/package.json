@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-dataview-index",
+  "version": "1.0.0",
+  "description": "Emit static/dataviewIndex.json: listed pages with title + modified date.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "dataview-index", "displayName": "Dataview Index", "category": "emitter", "version": "1.0.0", "defaultEnabled": true }
+}
