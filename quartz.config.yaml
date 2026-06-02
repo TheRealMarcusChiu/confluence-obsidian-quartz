@@ -280,6 +280,9 @@ plugins:
   - source: ./local-plugins/merge-table
     enabled: true
     order: 26
+  - source: ./local-plugins/tabs
+    enabled: true
+    order: 24
 layout:
   groups:
     toolbar:

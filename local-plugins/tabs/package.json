@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-tabs",
+  "version": "1.0.0",
+  "description": "Render [!tabs] callouts with === separators as an interactive tab widget.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "tabs", "displayName": "Tabs", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
