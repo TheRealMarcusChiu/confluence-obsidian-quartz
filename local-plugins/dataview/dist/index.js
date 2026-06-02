@@ -6,10 +6,14 @@ export const manifest = {
   category: "transformer",
 }
 
+const escapeAttr = (s) =>
+  String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+
 // Parse only the shapes we support:
 //   LIST [FROM ""] [SORT <field> <asc|desc>] [LIMIT <n>]                          -> recent list
-//   LIST [FROM ""] WHERE file.folder = this.file.folder + "/" + file.name [...]   -> direct children
-// Returns {kind, sort, dir, limit} or null (unsupported -> leave the code block untouched).
+//   LIST [FROM ""] WHERE file.folder = <ref>.file.folder + "/" + file.name [...]  -> direct children
+//     where <ref> is `this` (current page) or `[[Note Title]]` (another page).
+// Returns {kind, target, sort, dir, limit} or null (unsupported -> leave the code block untouched).
 function parseQuery(src) {
   const lines = src
     .split("\n")
@@ -20,6 +24,7 @@ function parseQuery(src) {
   let dir = null
   let limit = 0
   let children = false
+  let target = null // null = this page; otherwise the [[Title]] to resolve
   for (const line of lines.slice(1)) {
     let m
     if ((m = line.match(/^sort\s+(\w+)\s*(asc|desc)?/i))) {
@@ -31,17 +36,20 @@ function parseQuery(src) {
       // FROM "" = whole vault; only the empty-source form is supported
       if (!/^from\s+""\s*$/i.test(line)) return null
     } else if (
-      /^where\s+file\.folder\s*=\s*this\.file\.folder\s*\+\s*"\/"\s*\+\s*file\.name\s*$/i.test(line)
+      (m = line.match(
+        /^where\s+file\.folder\s*=\s*(this|\[\[(.+?)\]\])\.file\.folder\s*\+\s*"\/"\s*\+\s*file\.name\s*$/i,
+      ))
     ) {
-      // the canonical "direct children of this folder note" predicate
+      // "direct children of <ref>" predicate; m[2] is set when <ref> is [[Title]]
       children = true
+      if (m[2]) target = m[2].split(/[|｜#]/)[0].trim() // drop alias / heading
     } else {
       return null // any other clause -> unsupported
     }
   }
   if (sort && sort !== "modified" && sort !== "created" && sort !== "title") return null
-  if (children) return { kind: "children", sort: sort || "title", dir: dir || "asc", limit }
-  return { kind: "recent", sort: sort || "modified", dir: dir || "desc", limit }
+  if (children) return { kind: "children", target, sort: sort || "title", dir: dir || "asc", limit }
+  return { kind: "recent", target: null, sort: sort || "modified", dir: dir || "desc", limit }
 }
 
 const DATAVIEW_CLIENT_JS = `
@@ -58,16 +66,31 @@ function renderQuartzDataview() {
   const base = local ? local.getAttribute("href").replace(/[^/]+$/, "") : ""
   // Current page slug (e.g. "test-home/index") -> folder prefix ("test-home").
   const bodySlug = (document.body && document.body.getAttribute("data-slug")) || ""
-  const folderPrefix = bodySlug.replace(/\\/index$/, "")
+  const selfPrefix = bodySlug.replace(/\\/index$/, "")
+  // Resolve a [[Title]] target to its folder prefix: find the indexed note by
+  // title (then by slug note-name), and strip its trailing /index.
+  function resolvePrefix(all, target) {
+    if (!target) return selfPrefix
+    let hit = all.find((it) => String(it.title) === target)
+    if (!hit) hit = all.find((it) => String(it.title).toLowerCase() === target.toLowerCase())
+    if (!hit) {
+      hit = all.find((it) => {
+        const parts = String(it.slug).split("/")
+        const name = parts[parts.length - 1] === "index" ? parts[parts.length - 2] : parts[parts.length - 1]
+        return name === target || (name && name.toLowerCase() === target.toLowerCase())
+      })
+    }
+    return hit ? String(hit.slug).replace(/\\/index$/, "") : null
+  }
   // A slug is a *direct* child of the prefix when, after stripping "<prefix>/",
   // the remainder is "<name>" (plain page) or "<name>/index" (folder note).
-  function isDirectChild(slug) {
+  function isDirectChild(slug, prefix) {
     let rest
-    if (folderPrefix === "") {
+    if (prefix === "") {
       rest = slug
     } else {
-      if (slug.indexOf(folderPrefix + "/") !== 0) return false
-      rest = slug.slice(folderPrefix.length + 1)
+      if (slug.indexOf(prefix + "/") !== 0) return false
+      rest = slug.slice(prefix.length + 1)
     }
     if (rest === "" || rest === "index") return false
     const parts = rest.split("/")
@@ -82,7 +105,14 @@ function renderQuartzDataview() {
         const dir = ul.getAttribute("data-dir") || (isChildren ? "asc" : "desc")
         const limit = parseInt(ul.getAttribute("data-limit") || "0", 10)
         let items = all.slice()
-        if (isChildren) items = items.filter((it) => isDirectChild(String(it.slug)))
+        if (isChildren) {
+          const prefix = resolvePrefix(all, ul.getAttribute("data-target") || "")
+          if (prefix === null) {
+            ul.innerHTML = "" // unresolved [[Title]] -> nothing to list
+            return
+          }
+          items = items.filter((it) => isDirectChild(String(it.slug), prefix))
+        }
         // sort ascending by the chosen field, then reverse for desc
         if (sort === "title") {
           items.sort((a, b) =>
@@ -129,10 +159,9 @@ const Dataview = (_opts) => ({
                 const q = parseQuery(child.value)
                 if (q) {
                   const cls = q.kind === "children" ? "dataview-children" : "dataview-recent"
-                  out.push({
-                    type: "html",
-                    value: `<ul class="${cls}" data-sort="${q.sort}" data-dir="${q.dir}" data-limit="${q.limit}"></ul>`,
-                  })
+                  let attrs = `data-sort="${q.sort}" data-dir="${q.dir}" data-limit="${q.limit}"`
+                  if (q.kind === "children" && q.target) attrs += ` data-target="${escapeAttr(q.target)}"`
+                  out.push({ type: "html", value: `<ul class="${cls}" ${attrs}></ul>` })
                   changed = true
                   continue
                 }
