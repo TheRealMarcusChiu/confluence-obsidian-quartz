@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-merge-table",
+  "version": "1.0.0",
+  "description": "Render ```merge-table JSON blocks as colspan/rowspan/bg tables with Markdown cells.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "merge-table", "displayName": "Merge Table", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
