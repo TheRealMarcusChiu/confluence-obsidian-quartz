@@ -16,7 +16,7 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   margin: 0 !important;
-  padding: 12px 0 !important;
+  padding: 6px 0 !important;
 
   &::before,
   & .callout::before {
@@ -88,6 +88,13 @@
   & > .callout-content {
     padding: 8px 0 0 36px !important;
     color: var(--darkgray) !important;
+  }
+
+  // Fully hide collapsed content. Quartz's `0fr` grid-collapse can't shrink a
+  // nested callout's padding/border, so a child expand-ui's title/border peeks
+  // through; hiding the content outright avoids the peek.
+  &.is-collapsed > .callout-content {
+    display: none !important;
   }
 }
 
