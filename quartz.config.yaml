@@ -278,6 +278,9 @@ plugins:
   - source: ./local-plugins/math-adjacency
     enabled: true
     order: 22
+  - source: ./local-plugins/callout-list-attach
+    enabled: true
+    order: 29
   - source: ./local-plugins/callout-wrapper-fix
     enabled: true
     order: 35

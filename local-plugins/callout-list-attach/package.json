@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-callout-list-attach",
+  "version": "1.0.0",
+  "description": "Nest a blockquote/callout that immediately follows a list (no blank line) into that list's last item, so it indents under the bullet.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "callout-list-attach", "displayName": "Callout List Attach", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
