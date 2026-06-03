@@ -328,3 +328,21 @@ article table {
     margin-bottom: 0;
   }
 }
+
+// --- Headings: more breathing room above document-level headers ---
+// (scoped to direct children of the content container, so headers nested in
+// lists / callouts / table cells keep their tighter spacing.)
+.markdown-preview-view {
+  & > h1,
+  & > h2,
+  & > h3,
+  & > h4,
+  & > h5,
+  & > h6 {
+    margin-top: 2rem;
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+}
