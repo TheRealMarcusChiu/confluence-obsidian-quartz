@@ -33,6 +33,20 @@ const hasReal = (children) =>
     (c) => c.type === "element" || (c.type === "text" && typeof c.value === "string" && c.value.trim() !== ""),
   )
 
+const textOf = (node) => {
+  if (!node) return ""
+  if (node.type === "text") return node.value || ""
+  if (Array.isArray(node.children)) return node.children.map(textOf).join("")
+  return ""
+}
+
+// Quartz's auto-generated title for a titleless callout: type with hyphens → spaces,
+// first letter capitalized (e.g. "list-indent-undo" → "List indent undo").
+const defaultTitleOf = (type) => {
+  const s = type.replace(/-/g, " ")
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
 const CalloutWrapperFix = () => ({
   name: "CalloutWrapperFix",
   htmlPlugins() {
@@ -50,7 +64,14 @@ const CalloutWrapperFix = () => ({
           ) {
             const title = findChild(node, "callout-title")
             const inner = title && findChild(title, "callout-title-inner")
-            if (inner && hasReal(inner.children)) {
+            // Skip the auto-generated title (e.g. "List indent undo") — it belongs
+            // in the hidden title and must stay invisible. Only relocate genuinely
+            // leaked *body* content (an image, table, etc.).
+            const type = WRAPPERS.find((w) => node.properties.className.includes(w))
+            const innerText = textOf(inner).trim()
+            const isDefaultTitle =
+              innerText !== "" && innerText.toLowerCase() === defaultTitleOf(type).toLowerCase()
+            if (inner && !isDefaultTitle && hasReal(inner.children)) {
               let content = findChild(node, "callout-content")
               if (!content) {
                 content = {
