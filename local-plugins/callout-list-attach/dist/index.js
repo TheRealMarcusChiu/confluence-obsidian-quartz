@@ -14,12 +14,14 @@ export const manifest = {
 // OFM (order 29): when a blockquote starts on the line directly after a list ends
 // (adjacent, no blank line), move it into the list's last item so it indents.
 // An empty bullet (`- ` with no content) directly after a paragraph line is
-// consumed by CommonMark as a *setext heading underline*, turning the paragraph
-// into a heading and destroying the list — so a callout meant to sit in that
-// empty bullet drops to the base level. Inserting a blank line before such an
-// empty bullet breaks the setext while keeping the bullet empty (so the callout
-// still renders inline in it).
-const isEmptyBullet = (l) => /^\s*[-*+]\s*$/.test(l)
+// not form a list, so a callout meant to sit in it drops to the base level:
+//   - an empty `- ` is consumed by CommonMark as a *setext heading underline*
+//     (the preceding paragraph becomes a heading, the list is destroyed);
+//   - an empty `1. ` can't interrupt the paragraph, so it's absorbed as a lazy
+//     continuation (no list at all).
+// Inserting a blank line before such an empty bullet makes it start a fresh list
+// while staying empty (so the callout still renders inline in it).
+const isEmptyBullet = (l) => /^\s*([-*+]|\d+[.)])\s*$/.test(l)
 const isPlainText = (l) => {
   const t = l.trim()
   if (t === "") return false
@@ -29,7 +31,7 @@ const isPlainText = (l) => {
     !/^#{1,6}\s/.test(t) && // heading
     !/^(```|~~~)/.test(t) && // code fence
     !/^\|/.test(t) && // table row
-    !/^[-*+]\s*$/.test(t) // empty bullet
+    !/^([-*+]|\d+[.)])\s*$/.test(t) // empty bullet
   )
 }
 
@@ -37,8 +39,6 @@ const CalloutListAttach = () => ({
   name: "CalloutListAttach",
   textTransform(_ctx, src) {
     const text = src.toString()
-    if (text.indexOf("\n-") === -1 && text.indexOf("\n*") === -1 && text.indexOf("\n+") === -1)
-      return text
     const lines = text.split("\n")
     const out = []
     let fence = ""
@@ -51,7 +51,7 @@ const CalloutListAttach = () => ({
         continue
       }
       if (!fence && isEmptyBullet(line) && isPlainText(out[out.length - 1] || "")) {
-        out.push("") // blank line to stop the empty bullet acting as a setext underline
+        out.push("") // blank line so the empty bullet starts a list instead of merging into the paragraph
       }
       out.push(line)
     }
