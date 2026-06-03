@@ -13,8 +13,50 @@ export const manifest = {
 // blockquote), but the difference survives in mdast line positions. Runs before
 // OFM (order 29): when a blockquote starts on the line directly after a list ends
 // (adjacent, no blank line), move it into the list's last item so it indents.
+// An empty bullet (`- ` with no content) directly after a paragraph line is
+// consumed by CommonMark as a *setext heading underline*, turning the paragraph
+// into a heading and destroying the list — so a callout meant to sit in that
+// empty bullet drops to the base level. Inserting a blank line before such an
+// empty bullet breaks the setext while keeping the bullet empty (so the callout
+// still renders inline in it).
+const isEmptyBullet = (l) => /^\s*[-*+]\s*$/.test(l)
+const isPlainText = (l) => {
+  const t = l.trim()
+  if (t === "") return false
+  return (
+    !/^([-*+]|\d+[.)])\s/.test(t) && // list item
+    !/^>/.test(t) && // blockquote
+    !/^#{1,6}\s/.test(t) && // heading
+    !/^(```|~~~)/.test(t) && // code fence
+    !/^\|/.test(t) && // table row
+    !/^[-*+]\s*$/.test(t) // empty bullet
+  )
+}
+
 const CalloutListAttach = () => ({
   name: "CalloutListAttach",
+  textTransform(_ctx, src) {
+    const text = src.toString()
+    if (text.indexOf("\n-") === -1 && text.indexOf("\n*") === -1 && text.indexOf("\n+") === -1)
+      return text
+    const lines = text.split("\n")
+    const out = []
+    let fence = ""
+    for (const line of lines) {
+      const fm = line.match(/^\s*(`{3,}|~{3,})/)
+      if (fm) {
+        const marker = fm[1][0]
+        fence = fence === "" ? marker : fence === marker ? "" : fence
+        out.push(line)
+        continue
+      }
+      if (!fence && isEmptyBullet(line) && isPlainText(out[out.length - 1] || "")) {
+        out.push("") // blank line to stop the empty bullet acting as a setext underline
+      }
+      out.push(line)
+    }
+    return out.join("\n")
+  },
   markdownPlugins() {
     return [
       () => (tree) => {
