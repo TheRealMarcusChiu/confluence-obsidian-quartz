@@ -1,0 +1,10 @@
+{
+  "name": "quartz-plugin-callout-wrapper-fix",
+  "version": "1.0.0",
+  "description": "Move content that leaked into the hidden title of indent/wrapper callouts back into the callout body.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "quartz": { "name": "callout-wrapper-fix", "displayName": "Callout Wrapper Fix", "category": "transformer", "version": "1.0.0", "defaultEnabled": true }
+}
