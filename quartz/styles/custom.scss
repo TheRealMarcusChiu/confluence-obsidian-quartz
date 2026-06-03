@@ -346,3 +346,21 @@ article table {
     margin-top: 0;
   }
 }
+
+// --- Use Inter everywhere (override the active theme's system-font stack + the
+// empty --headerFont so headers stop falling back to Times). ---
+:root,
+html[saved-theme="light"],
+html[saved-theme="dark"] {
+  --font-default: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --bodyFont: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --headerFont: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+// The theme hardcodes a system font stack on text elements, so the variable
+// override above isn't enough. Force Inter across the whole site — but exclude
+// code/pre/kbd (monospace) and the KaTeX subtree (math fonts) so those survive.
+body,
+body :not(code):not(pre):not(kbd):not(.katex):not(.katex *) {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif !important;
+}
