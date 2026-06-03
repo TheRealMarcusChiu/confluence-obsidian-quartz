@@ -173,6 +173,13 @@ article table {
     white-space: nowrap !important;
   }
 
+  // header cells: bold text (covers native + merge tables). The cell content is
+  // wrapped in a <p> that otherwise renders at normal weight, so bold descendants too.
+  & th,
+  & th * {
+    font-weight: 700;
+  }
+
   // table border color (fixed blue-gray, both themes; base.scss uses the very-faint --lightgray)
   & tr {
     border-bottom-color: #c1c7d0;
