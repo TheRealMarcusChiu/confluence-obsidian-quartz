@@ -243,10 +243,7 @@ article table {
   th[style*="background-color"],
   td[style*="background-color"] {
     color: #2b2b2b;
-
-    a {
-      color: #284b63;
-    }
+    // links keep their normal (outside-table) color, not a cell-specific one
   }
 }
 
