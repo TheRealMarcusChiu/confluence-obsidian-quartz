@@ -248,40 +248,51 @@ article table {
 }
 
 // --- Tabs ([!tabs] callout -> interactive tab widget) ---
+// Card look: bordered widget; active tab matches the page background, inactive
+// tabs sit a shade darker (a darkened --light, so it's darker in both themes).
 .tabs {
+  // inactive-tab surface: the page background, nudged a shade darker
+  --tabs-inactive: color-mix(in srgb, var(--light) 92%, #000);
+
   margin: 1em 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .tabs-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  background: var(--tabs-inactive);
   border-bottom: 1px solid var(--lightgray);
 }
 
 .tabs-btn {
-  background: none;
+  background: transparent; // shows the darker nav strip
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  padding: 0.4em 0.9em;
+  padding: 0.5em 1em;
   font: inherit;
   color: var(--gray);
   cursor: pointer;
+
+  & + .tabs-btn {
+    border-left: 1px solid var(--lightgray);
+  }
 
   &:hover {
     color: var(--dark);
   }
 
   &.is-active {
-    color: var(--secondary);
-    border-bottom-color: var(--secondary);
+    background: var(--light); // same color as the page background
+    color: var(--dark);
+    font-weight: 600;
   }
 }
 
 .tabs-panel {
   display: none;
-  padding: 0.8em 0;
+  padding: 0.8em 1em;
 
   &.is-active {
     display: block;
