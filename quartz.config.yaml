@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: /var/log
+  pageTitle: Quartz 5
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -16,8 +16,8 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Inter
-      body: Inter
+      header: Schibsted Grotesk
+      body: Source Sans Pro
       code: IBM Plex Mono
     colors:
       lightMode:
@@ -148,9 +148,6 @@ plugins:
     enabled: true
   - source: github:quartz-community/folder-page
     enabled: true
-    options:
-      showFolderCount: false
-      showSubfolders: false
   - source: github:quartz-community/tag-page
     enabled: true
   - source: github:quartz-community/explorer
@@ -159,7 +156,7 @@ plugins:
       position: left
       priority: 50
   - source: github:quartz-community/graph
-    enabled: false
+    enabled: true
     layout:
       position: right
       priority: 10
@@ -172,7 +169,7 @@ plugins:
       groupOptions:
         grow: true
   - source: github:quartz-community/backlinks
-    enabled: false
+    enabled: true
     layout:
       position: right
       priority: 50
@@ -197,13 +194,13 @@ plugins:
       position: left
       priority: 10
   - source: github:quartz-community/darkmode
-    enabled: false
+    enabled: true
     layout:
       position: left
       priority: 30
       group: toolbar
   - source: github:quartz-community/reader-mode
-    enabled: false
+    enabled: true
     layout:
       position: left
       priority: 35
@@ -223,16 +220,13 @@ plugins:
       position: afterBody
       priority: 10
   - source: github:quartz-community/footer
-    enabled: false
+    enabled: true
     options:
       links:
         GitHub: https://github.com/jackyzha0/quartz
         Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
-    enabled: true
-    options:
-      title: Recently Notes
-      linkToMore: true      
+    enabled: false
   - source: github:quartz-community/spacer
     enabled: true
     options: {}
@@ -250,8 +244,6 @@ plugins:
     options:
       includeAll: false
       includedProperties:
-        - created
-        - modified
         - description
         - tags
         - aliases
@@ -271,7 +263,6 @@ plugins:
     enabled: true
     options:
       theme: default
-      mode: light # force permanent light mode (hides the dark/light toggle)
   - source: github:quartz-community/obsidian-plugin-excalidraw
     enabled: true
     options:
@@ -279,32 +270,6 @@ plugins:
       darkMode: auto
       exportPadding: 20
     order: 50
-  - source: ./local-plugins/excerpt
-    enabled: true
-    order: 25
-  - source: ./local-plugins/math-adjacency
-    enabled: true
-    order: 22
-  - source: ./local-plugins/callout-list-attach
-    enabled: true
-    order: 29
-  - source: ./local-plugins/callout-wrapper-fix
-    enabled: true
-    order: 35
-  - source: ./local-plugins/transclude-resolve
-    enabled: true
-    order: 65
-  - source: ./local-plugins/merge-table
-    enabled: true
-    order: 26
-  - source: ./local-plugins/tabs
-    enabled: true
-    order: 24
-  - source: ./local-plugins/dataview-index
-    enabled: true
-  - source: ./local-plugins/dataview
-    enabled: true
-    order: 28
 layout:
   groups:
     toolbar:
