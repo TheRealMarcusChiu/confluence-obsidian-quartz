@@ -240,15 +240,25 @@ article table {
 // --- Merge tables (colspan/rowspan/per-cell bg; rich Markdown cells) ---
 .merge-table {
   border-collapse: collapse;
-  white-space: normal; // override the global wide-table no-wrap for these
   margin: 1em 0;
+
+  // tables don't wrap text — long cells clip and the table scrolls horizontally
+  // (via `article table { overflow-x: auto }`). The cell content sits in a <p>
+  // that resets white-space, so target the text containers (not KaTeX spans).
+  th,
+  td,
+  th p,
+  td p,
+  th li,
+  td li {
+    white-space: nowrap !important;
+  }
 
   th,
   td {
     border: 1px solid #c1c7d0;
     padding: 0.4em 0.6em;
     vertical-align: top;
-    white-space: normal !important; // beat the Phase-2 td/th nowrap rule
   }
 
   // tighten margins of block content inside cells
