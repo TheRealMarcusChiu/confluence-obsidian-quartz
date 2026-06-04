@@ -1,0 +1,12 @@
+---
+title: "SSL／TLS - History"
+created: 2019-10-08T14:43:54.528-05:00
+modified: 2019-11-18T08:55:21.727-06:00
+parent: "[[Secure Sockets Layer (SSL) - Transport Layer Security (TLS)]]"
+children: []
+---
+SSL is a protocol with a long history and several versions. First prototypes came from Netscape when they were developing the first versions of their flagship browser, [Netscape Navigator](http://en.wikipedia.org/wiki/Netscape_Navigator) (this browser killed off [Mosaic](http://en.wikipedia.org/wiki/Mosaic_%28web_browser%29) in the early times of the Browser Wars, which are still raging, albeit with new competitors). Version 1 has never been made public so we do not know how it looked like. SSL version 2 is described in a draft which can be read [there](https://tools.ietf.org/html/draft-hickman-netscape-ssl-00); it has a number of weaknesses, some of them rather serious, so it is deprecated and newer SSL/TLS implementations do not support it (while older deactivated by default). I will not speak of SSL version 2 any further, except as an occasional reference.
+
+SSL version 3 (which I will call "SSLv3") was an enhanced protocol which still works today and is widely supported. Although still a property of Netscape Communications (or whoever owns that nowadays), the protocol has been published as a "historical RFC" ([RFC 6101](http://tools.ietf.org/html/rfc6101)). Meanwhile, the protocol has been standardized, with a <strong>new name</strong> in order to avoid legal issues; the new name is <strong>TLS</strong>.
+
+Three versions of TLS have been produced so far, each with its dedicated RFC: [TLS 1.0](http://tools.ietf.org/html/rfc2246), [TLS 1.1](http://tools.ietf.org/html/rfc4346) and [TLS 1.2](http://tools.ietf.org/html/rfc5246). They are internally very similar with each other, and with SSLv3, to the point that an implementation can easily support SSLv3 and all three TLS versions with at least 95% of the code being common. Still, internally, all versions are designated by a version number with the <em>major.minor</em> format; SSLv3 is then 3.0, while the TLS versions are, respectively, 3.1, 3.2 and 3.3. Thus, it is no wonder that TLS 1.0 is sometimes called SSL 3.1 (and it is not incorrect either). SSL 3.0 and TLS 1.0 differ by only some minute details. TLS 1.1 and 1.2 are not yet widely supported, although there is an impetus for that, because of possible weaknesses (see below, for the "BEAST attack"). SSLv3 and TLS 1.0 are supported "everywhere" (even IE 6.0 knows them).
