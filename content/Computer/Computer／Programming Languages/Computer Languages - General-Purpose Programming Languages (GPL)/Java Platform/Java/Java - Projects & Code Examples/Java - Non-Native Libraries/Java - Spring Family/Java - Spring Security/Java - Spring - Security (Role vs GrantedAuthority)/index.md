@@ -1,0 +1,18 @@
+---
+title: "Java - Spring - Security (Role vs GrantedAuthority)"
+created: 2020-12-29T10:04:26.825-06:00
+modified: 2020-12-29T10:10:07.986-06:00
+parent: "[[Java - Spring Security]]"
+children: []
+---
+article: [https://stackoverflow.com/questions/19525380/difference-between-role-and-grantedauthority-in-spring-security](https://stackoverflow.com/questions/19525380/difference-between-role-and-grantedauthority-in-spring-security)
+
+Think of a GrantedAuthority as being a "permission" or a "right". Those "permissions" are (normally) expressed as strings (with the <code><font style="color: rgb(128,128,128);">getAuthority()</font></code> method). Those strings let you identify the permissions and let your voters decide if they grant access to something.
+
+You can grant different GrantedAuthoritys (permissions) to users by putting them into the security context. You normally do that by implementing your own UserDetailsService that returns a UserDetails implementation that returns the needed GrantedAuthorities.
+
+Roles (as they are used in many examples) are just "permissions" with a naming convention that says that a role is a GrantedAuthority that starts with the prefix <code><font style="color: rgb(128,128,128);">ROLE\_</font></code>. There's nothing more. A role is just a GrantedAuthority - a "permission" - a "right". You see a lot of places in spring security where the role with its <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix is handled specially as e.g. in the RoleVoter, where the <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix is used as a default. This allows you to provide the role names without the <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix. Prior to Spring security 4, this special handling of "roles" has not been followed very consistently and authorities and roles were often treated the same (as you e.g. can see in the implementation of the <code><font style="color: rgb(128,128,128);">hasAuthority()</font></code> method in [SecurityExpressionRoot](https://github.com/spring-projects/spring-security/blob/3.2.x/core/src/main/java/org/springframework/security/access/expression/SecurityExpressionRoot.java) - which simply calls <code><font style="color: rgb(128,128,128);">hasRole()</font></code>). With Spring Security 4, the treatment of roles is more consistent and code that deals with "roles" (like the <code><font style="color: rgb(128,128,128);">RoleVoter</font></code>, the <code>hasRole</code> expression etc.) always adds the <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix for you. So <code><font style="color: rgb(128,128,128);">hasAuthority('ROLE\_ADMIN')</font></code> means the the same as <code><font style="color: rgb(128,128,128);">hasRole('ADMIN')</font></code> because the <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix gets added automatically. See the spring security 3 to 4 [migration guide](http://docs.spring.io/spring-security/site/migrate/current/3-to-4/html5/migrate-3-to-4-jc.html#m3to4-role-prefixing) for further information.
+
+But still: a role is just an authority with a special <code><font style="color: rgb(128,128,128);">ROLE\_</font></code> prefix:
+- in Spring security 3 <code><font style="color: rgb(128,128,128);">@PreAuthorize("hasRole('ROLE\_XYZ')")</font></code> is the same as <code><font style="color: rgb(128,128,128);">@PreAuthorize("hasAuthority('ROLE\_XYZ')")</font></code>
+- in Spring security 4 <code><font style="color: rgb(128,128,128);">@PreAuthorize("hasRole('XYZ')")</font></code> is the same as <code><font style="color: rgb(128,128,128);">@PreAuthorize("hasAuthority('ROLE\_XYZ')")</font></code>

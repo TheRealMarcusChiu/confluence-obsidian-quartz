@@ -1,0 +1,110 @@
+---
+title: "Proto-Indo European Language"
+created: 2021-09-13T04:44:14.614-05:00
+modified: 2021-09-13T04:44:14.614-05:00
+parent: "[[Language Tree - Nostratic]]"
+children: []
+---
+- <em>[Albanian](https://en.wikipedia.org/wiki/Albanian_language)</em>
+- [Anatolian](https://en.wikipedia.org/wiki/Anatolian_languages)
+	- Hittite
+	- Lydian
+	- Lycian
+- <em>[Armenian](https://en.wikipedia.org/wiki/Armenian_language)</em>
+- [Balto-Slavic](https://en.wikipedia.org/wiki/Balto-Slavic_languages)
+	- [Baltic](https://en.wikipedia.org/wiki/Baltic_languages)
+		- Old Prussian
+		- Lithuanian
+		- Latvian
+	- [Slavic](https://en.wikipedia.org/wiki/Slavic_languages)
+		- West Slavic
+			- Wendish
+			- Polish
+			- Slovek
+			- Czech
+		- South Slavic
+			- Slovene
+			- Serbo-Croatian
+			- Macedonian
+			- Bulgarian
+			- Old Church Slovenia
+		- East Slavic
+			- Russian
+			- Ukrainian
+- [Celtic](https://en.wikipedia.org/wiki/Celtic_languages)
+	- Goidelic (Gaelic, pronounced \[gil-lic\])
+		- Irish Gaelic
+		- Scottish Gaelic
+		- Manx
+	- Brythonic
+		- Welsh
+		- Cornish
+		- Breton
+		- Gaulish
+- [Germanic](https://en.wikipedia.org/wiki/Germanic_languages)
+	- North Germanic
+		- Old Norse
+			- Old Icelandic - Icelandic
+			- Faroese
+			- Old Norwegian - Middle Norwegian - Norwegian
+		- Old Swedish - Middle Swedish - Swedish
+		- Old Danish - Middle Danish - Danish
+	- West Germanic
+		- Old English - Middle English - English
+		- Old Frisian - Frisian
+		- Old Dutch - Middle Dutch
+			- Dutch
+			- Flemish
+			- Afrikaans
+		- Old Low German - Middle Low German - Low German
+		- Old High German - Middle High German
+			- (High) German
+			- Yiddish
+	- East Germanic
+		- Gothic
+- [Hellenic](https://en.wikipedia.org/wiki/Hellenic_languages)
+	- [Greek](https://en.wikipedia.org/wiki/Greek_language)
+		- Cyrillic
+- [Indo-Iranian](https://en.wikipedia.org/wiki/Indo-Iranian_languages)
+	- [Iranian](https://en.wikipedia.org/wiki/Iranian_languages)
+		- Avestan
+		- Kurdish
+		- Old Persian - Middle Persian - New Persian
+			- Farsi - Persian in Iran
+			- Dari - Afghan Persian
+		- Gujarati
+	- Dardic
+		- Chitral
+		- [Kashmiri](https://en.wikipedia.org/wiki/Kashmiri_language)
+		- Kohistani
+		- Kunar
+		- [Pashayi](https://en.wikipedia.org/wiki/Pashayi_languages)
+		- [Shina](https://en.wikipedia.org/wiki/Shina_language)
+	- Indic
+		- Sanskrit
+			- Sindhi
+			- Urdu
+			- Hindi
+			- Bengali
+			- pali
+- [Italic](https://en.wikipedia.org/wiki/Italic_languages)
+	- Osco-Umbrian
+		- Osco
+		- Umbrian
+	- Latino-Faliscan
+		- Faliscan
+		- Latin
+			- Portugese
+			- Spanish
+			- Catalan
+			- French
+			- Italian
+			- Romanian
+			- Provençal - southeastern France, bordering Italy and Mediterranean Sea
+- Phrygian
+- [Tocharian](https://en.wikipedia.org/wiki/Tocharian_languages)
+	- Tocharian A
+	- Tocharian B
+- Thracian
+- [Daco-Thracian](https://en.wikipedia.org/wiki/Classification_of_Thracian)
+- <em>[Illyrian](https://en.wikipedia.org/wiki/Illyrian_language)</em>
