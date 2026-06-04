@@ -369,3 +369,24 @@ body :not(code):not(pre):not(kbd):not(.katex):not(.katex *) {
 article {
   padding-bottom: 50vh;
 }
+
+// --- Left sidebar (explorer): no text wrap; scroll horizontally for long titles ---
+.explorer {
+  ul,
+  li,
+  .folder-outer,
+  .folder-container,
+  .folder-title,
+  & a {
+    white-space: nowrap;
+  }
+}
+
+.explorer-ul {
+  overflow-x: auto;
+
+  li {
+    width: max-content;
+    min-width: 100%; // short rows still fill the sidebar (consistent hover)
+  }
+}
