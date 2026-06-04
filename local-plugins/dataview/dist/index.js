@@ -10,9 +10,11 @@ const escapeAttr = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
 
 // Parse only the shapes we support:
-//   LIST [FROM ""] [SORT <field> <asc|desc>] [LIMIT <n>]                          -> recent list
-//   LIST [FROM ""] WHERE file.folder = <ref>.file.folder + "/" + file.name [...]  -> direct children
-//     where <ref> is `this` (current page) or `[[Note Title]]` (another page).
+//   LIST [FROM ""] [SORT <field> <asc|desc>] [LIMIT <n>]                              -> recent list
+//   LIST [FROM ""] WHERE file.folder = <ref>.file.folder + "/" + <name> [...]         -> direct children
+//     <ref> is `this` (current page) or `[[Note Title]]` (another page); <name> is
+//     `file.name`, `this.file.name`, or `[[…]].file.name` (Obsidian writes any of
+//     these). Only the left-hand <ref> decides whose children to list.
 // Returns {kind, target, sort, dir, limit} or null (unsupported -> leave the code block untouched).
 function parseQuery(src) {
   const lines = src
@@ -37,7 +39,7 @@ function parseQuery(src) {
       if (!/^from\s+""\s*$/i.test(line)) return null
     } else if (
       (m = line.match(
-        /^where\s+file\.folder\s*=\s*(this|\[\[(.+?)\]\])\.file\.folder\s*\+\s*"\/"\s*\+\s*file\.name\s*$/i,
+        /^where\s+file\.folder\s*=\s*(this|\[\[(.+?)\]\])\.file\.folder\s*\+\s*"\/"\s*\+\s*(?:this\.|\[\[.+?\]\]\.)?file\.name\s*$/i,
       ))
     ) {
       // "direct children of <ref>" predicate; m[2] is set when <ref> is [[Title]]
